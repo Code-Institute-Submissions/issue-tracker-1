@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="issue-list-page">
+    <div class="list-header">
+        <h1 class="h4">Search Results{% if query %} for "{{ query }}"{% endif %}</h1>
+    </div>
+    <div class="dashboard-issues">
+        {% if issues %}
+        <div class="list-group list-group-flush">
+            {% for issue in issues %}
+                {% include "issue_row.html" %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+            Sorry, there are no results to display.
+        </div>
+        {% endif %}
+    </div>
+    <div class="search-create">
+      <h2 class="h5">Didn't find what you wanted?</h2>
+      <a class="btn btn-primary" href="{% url 'create_issue' %}">Create a new issue</a>
+    </div>
+</div>
+{% endblock %}

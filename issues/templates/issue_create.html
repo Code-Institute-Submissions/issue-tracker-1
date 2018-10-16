@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% block content %}
+<form action="{% url 'create_issue' %}" method="POST">
+    <div class="issue-title">  
+        <h1 class="h2">Create a new issue</h1>
+    </div>
+    {{ form|as_bootstrap }}
+    <button class="btn btn-success" type="submit">Create this issue</button>
+    {% csrf_token %}
+</form>
+{% endblock %}

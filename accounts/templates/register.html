@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% block content %}
+<div class="jumbotron">
+    <h1 class="h2">Sign Up and get Support</h1>
+    <p class="lead">Registering is quick and easy. Only members get access to these great features</p>
+    <div class="row">
+        <div class="col-sm-4">
+        <div class="card my-2">
+            <div class="card-body">
+            <h5 class="card-title text-success">Report Issues</h5>
+            <p class="card-text">Found a bug? Want to request a new feature? Sign up to start creating new issues right away.</p>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-4">
+        <div class="card my-2">
+            <div class="card-body">
+            <h5 class="card-title text-success">Comment and Discuss</h5>
+            <p class="card-text">Join the conversation, add your own info to bug reports, and your approval or disagreement to feature requests.</p>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-4">
+        <div class="card my-2">
+            <div class="card-body">
+            <h5 class="card-title text-success">Show Your Support</h5>
+            <p class="card-text">Registered members can upvote bug reports to boost their chances of getting resolved.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    <p>Already have an account? <a href="{% url 'login' %}">Sign in here</a></p>
+    <hr class="my-4">
+    <h3 class="mb-4">Register Now</h3>
+    <form method="POST">
+        {% csrf_token %} 
+        {{ user_form | as_bootstrap }}
+        <button type="submit" class="btn btn-primary btn-lg">Create My Account</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load bootstrap_tags %}
+{% block content %}
+<div class="jumbotron">
+    <form method="post" action="{% url 'login' %}?next={{ next }}" class="accountform">
+        <fieldset class="form-group">
+            <h3 class="mb-4">Login</h3>
+            {% csrf_token %}
+            {{ user_form | as_bootstrap }}
+            <button type="submit" class="btn btn-primary">Login</button>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

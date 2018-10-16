@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block head_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    const publishableKey = '{{ publishable }}';
+    //]]>  
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row row-flex">
+</div>
+<div class="row">
+    <p> Total</p>
+    <p><span class="glyphicon glyphicon-euro" aria-hidden="true"></span>{{ total }}</p>
+</div>
+
+<form role="form" method="post" id="payment-form" action="{% url 'checkout' %}">
+    <legend>Payment Details</legend>
+    <div id="card-errors" role="alert"></div>
+    
+    <div id="card-element"></div>
+    
+    {% csrf_token %}
+    <div class="form-group col-md-12">
+        <input class="btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment">
+    </div>
+</form>
+
+<script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
+{% endblock %}

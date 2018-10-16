@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Support For You</h1>
+    <p class="lead">Resolve issues and help us improve</p>
+    <hr class="my-4">
+    <p>Welcome to Support For You, a community-driven site where you can report bugs or request features, upvote already reported bugs, and give funding to boost feature requests.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Learn more</a>
+</div>
+
+<div class="dashboard">
+    <div class="dashboard-stats dashboard-login">
+        <div class="card stat-card stat-top-requests">
+            <div class="card-body">
+                <form method="post" action="{% url 'login' %}?next={{ next }}" class="accountform">
+                    <fieldset class="form-group">
+                        {% csrf_token %}
+                        {{ user_form | as_bootstrap }}
+                        <button type="submit" class="btn btn-success">Login</button>
+                        <p class="login-form-links"><a href="{% url 'register' %}">Register</a></p>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-issues card">
+        <h3 class="card-header">Recently Added Issues</h3>
+        <div class="list-group list-group-flush">
+            {% include "recently_updated_issue_list.html" %}
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'all_open_issues' %}" class="btn btn-primary btn-sm">All Open Issues &rsaquo;</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

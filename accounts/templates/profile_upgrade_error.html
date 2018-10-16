@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load thumbnail %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="h2">Upgrade Your Account</h1>
+  <p class="lead">A year of Premium for €60 gets you these great benefits</p>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title text-success">Fund Requests</h5>
+          <p class="card-text">Give credits to feature requests to boost their chances of being implemented.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title text-success">Better Visibility</h5>
+          <p class="card-text">Issues created by Premium members get higher priority responses from admins.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title text-success">Comes with Credits</h5>
+          <p class="card-text">Only Premium members can buy credits, and we give you 500 to get started.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
+  {% if request.user.subscription %}
+  <p>Your current subscription expires on {{ user.subscription.expires|date:"dS F Y" }}. You can renew again 30 days before the expiration date.</p>
+  {% endif %}
+</div>
+{% endblock %}

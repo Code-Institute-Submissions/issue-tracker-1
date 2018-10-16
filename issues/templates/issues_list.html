@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% block content %}
+<div class="issue-list-page">
+    <div class="list-header">
+        {% if status %}
+        <h1 class="h4"><span class="issue-field status status-{{ status_choice|lower }}">{{ status }}</span>{{ title }}</h1>
+        {% else %}
+            {% if category %}
+            <h1 class="h4"><span class="issue-field category category-{{ category.name|lower }}">{{ category.name }}</span> {{ title }}</h1>
+            {% else %}
+            <h1 class="h4">{{ title_prefix }} {{ title }}</h1>
+            {% endif %}
+        {% endif %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ title }}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/issues/">All Issues</a>
+                <div class="dropdown-divider"></div>
+                <h6 class="dropdown-header">Issue Types</h6>
+                <a class="dropdown-item" href="/issues/bugs/">Bugs</a>
+                <a class="dropdown-item" href="/issues/requests/">Feature Requests</a>
+            </div>
+        </div>
+    </div>
+    {% if status == None %}
+        {% if category == None %}
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link{% if not show_closed %} active{% endif %}" href="{{ link_root }}">Open</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if show_closed %} active{% endif %}" href="{{ link_root }}closed">Closed</a>
+            </li>
+        </ul>
+        {% endif %}
+    {% endif %}
+    <div class="dashboard-issues">
+        {% if issue_page %}
+        <div class="list-group list-group-flush">
+            {% for issue in issue_page.object_list %}
+                {% include "issue_row.html" %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+            Sorry, there are no issues to display.
+        </div>
+        {% endif %}
+    </div>
+    <nav class="issue-pagination" aria-label="{{ title }} Pages">
+            <ul class="pagination">
+                {% if issue_page.has_previous %}
+                <li class="page-item"><a class="page-link" aria-label="Previous" href="{{ link_root }}{% if show_closed %}closed/{% endif %}{{ issue_page.previous_page_number }}"><span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span></a></li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span></a></li>
+                {% endif %}
+                {% for page in page_range %}
+                <li class="page-item{% if page == issue_page.number %} active{% endif %}"><a class="page-link" href="{{ link_root }}{% if show_closed %}closed/{% endif %}{{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                {% if issue_page.has_next %}
+                <li class="page-item"><a class="page-link" aria-label="Next" href="{{ link_root }}{% if show_closed %}closed/{% endif %}{{ issue_page.next_page_number }}"><span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span></a></li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span></a></li>
+                {% endif %}
+            </ul>
+        </nav>
+</div>
+{% endblock %}

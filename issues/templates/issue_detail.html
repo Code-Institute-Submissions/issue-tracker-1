@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block content %}
+<div class="issue-title">  
+  <h1 class="h1">{{ issue.title }}</h1>
+  {% csrf_token %}
+  <script>
+    // From https://docs.djangoproject.com/en/1.11/ref/csrf/#setting-the-token-on-the-ajax-request
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+  </script>
+  {% if issue.issue_type == 'BG' %}
+  <div id="upvote-badge" class="issue-field upvotes badge badge-pill">
+    <span id="vote-count">{{ issue.total_upvotes }}</span>
+    {% if votes.count == 0 and request.user.is_authenticated %}
+    <a href="#" id="upvote-btn"><i class="fas fa-plus-square"></i> Vote</a>
+    {% else %}
+    <span>vote{{ issue.total_upvotes|pluralize }}</span>
+    {% endif %}
+  </div>
+  <script>
+    $('#upvote-btn').click(function(e) {
+      $.post(
+        '{% url "bug_upvote" %}',
+        {
+          issue_id: {{ issue.id }},
+        },
+        function(res, status, xhr) {
+          $('#vote-count')
+            .replaceWith('<span id="vote-count">'+ res.new_vote_count +'</span>');
+          let replacementLabel = 'votes';
+          if (res.new_vote_count === 1) {
+            replacementLabel = 'vote';
+          }
+          $('#upvote-btn').replaceWith('<span>'+ replacementLabel +'</span>');
+          $('#upvote-badge').addClass('voted');
+        }
+      ).fail(function(xhr, status, error) {
+        console.error({
+          message: xhr.responseJSON.error,
+          status: xhr.status,
+          error: error,
+        });
+      });
+    });
+  </script>
+  {% else %}
+  <div id="credits-badge" class="issue-field credits badge badge-pill">
+    <span id="credit-count">{{ issue.total_credits }}</span>
+    {% if request.user.is_authenticated %}
+    <a href="#ex1" rel="modal:open"><i class="fas fa-plus-square"></i> Fund</a>
+    <div id="ex1" class="modal">
+      {% if request.user.subscription %}
+        {% if request.user.subscription.is_expired %}
+          <p>Your subscription has expired. <a href="{% url 'profile_upgrade' %}">Click here</a> to renew.</p>
+        {% else %}
+          {% if request.user.profile.credits > 0 %}
+          <p>How many credits would you like to add to this request?</p>
+          <p>You have <strong>{{ request.user.profile.credits }}</strong> left.</p>
+          <input type="number" name="amount" value="10" min="10" max="500" step="10"/>
+          <button id="credit-btn" class="btn btn-success">Add credits</button>
+          <span id="credits-modal-error" class="modal-error-message">No error</span>
+          {% else %}
+          <p>You have no credits left. <a href="{% url 'add_credits' %}">Click here</a> to buy some more.</p>
+          {% endif %}
+        {% endif %}
+      {% else %}
+        <p>You need to be a Premium subscriber to do that. <a href="{% url 'profile_upgrade' %}">Click here</a> to upgrade.</p>
+      {% endif %}
+    </div>
+    <script>
+      $("input[type='number']").inputSpinner();
+      $('#credit-btn').click(function(e) {
+        const creditAmount = $('input[name="amount"]')[0].value;
+        $.post(
+          '{% url "feature_upvote" %}',
+          {
+            issue_id: {{ issue.id }},
+            amount: creditAmount
+          },
+          function(res, status, xhr) {
+            $.modal.close();
+            $('#credit-count')
+              .replaceWith('<span id="credit-count">'+ res.new_pledge_total +'</span>');
+            $('#credits-badge').addClass('credited');
+          }
+        ).fail(function(xhr, status, error) {
+          const errorCode = xhr.responseJSON.error;
+          if (errorCode === 'not_enough_balance') {
+            $('#credits-modal-error').html("You don't have enough credits for that. <a href='{% url 'add_credits' %}'>Click here</a> to buy some more.").addClass('shown-error');
+          }
+          if (errorCode === 'no_credit_amount') {
+            $('#credits-modal-error').html("You didn't select any credits amount to add.").addClass('shown-error');
+          }
+          console.error({
+            message: xhr.responseJSON.error,
+            status: xhr.status,
+            error: error,
+          });
+        });
+      });
+    </script>
+    {% else %}
+    <span>credit{{ issue.total_credits|pluralize }}</span>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+<div class="issue-row-bottom">
+  <span class="issue-field status status-{{ issue.status|lower }}">{{ issue.get_status_display|capfirst }}</span>
+  <span class="issue-field created">Opened {{ issue.created|date:"M j Y" }} by <strong>{{ issue.creator.username }}</strong></span>
+  <span class="issue-field category">Category: <a href="{% url 'all_issues_by_category' issue.category.id %}">{{ issue.category }}</a></span>
+  <span class="issue-field updated">Updated {{ issue.updated|timesince }} ago</span>
+</div>
+<div class="issue-comments">
+  <div id="comments-list">
+    <div class="issue-comment issue-initial">
+      <div class="creator-profile-photo">
+        {% if issue.creator.profile.image %}
+        <img class="profile-avatar-med" src="{{ issue.creator.profile.image|thumbnail_url:'avatar' }}" />
+        {% endif %}
+      </div>
+      <div class="comment-details card">
+        <div class="comment-info card-header">
+          <strong>{{ issue.creator.username }}</strong> &bull; {{ issue.created|timesince }} ago
+        </div>
+        <div class="comment-text card-body">
+          {{ issue.description }}
+        </div>
+      </div>
+    </div>
+    {% for comment in issue.comments.all %}
+    <div class="issue-comment{% if comment.creator.is_staff %} admin-comment{% endif %}">
+      <div class="creator-profile-photo">
+        {% if comment.creator.profile.image %}
+        <img class="profile-avatar-med" src="{{ comment.creator.profile.image|thumbnail_url:'avatar' }}" />
+        {% endif %}
+      </div>
+      <div class="comment-details card">
+        <div class="comment-info card-header">
+          <strong>{{ comment.creator.username }}</strong>{% if comment.creator.is_staff %} <span class="badge badge-secondary">Admin</span>{% endif %} &bull; {{ comment.created|timesince }} ago
+        </div>
+        <div class="comment-text card-body">
+          {{ comment.text }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% if request.user.is_authenticated %}
+  <div class="comment-form">
+    <form name="addComment">
+      <div class="form-group">
+        <label for="comment-text">Enter your comment</label>
+        <textarea id="comment-text" class="form-control" name="text" required></textarea>
+      </div>
+      <input name="issueId" type="hidden" value="{{ issue.id }}" />
+      <button class="btn btn-success" name="commentBtn" id="comment-btn">Add comment</button>
+      <span id="comment-form-error" class="form-error-message">No error</span>
+    </form>
+    <script>
+      document.addComment.commentBtn.addEventListener("click", function(e){
+        e.preventDefault();
+        $.post(
+          '{% url "add_comment" %}',
+          {
+            issue_id: document.addComment.issueId.value,
+            text: document.addComment.text.value
+          },
+          function(res, status, xhr) {
+            $('#comments-list')
+              .append(
+                '<div class="issue-comment"> ' +
+                  '<div class="creator-profile-photo">' +
+                    {% if request.user.profile.image %}'<img class="profile-avatar-med" src="{{ request.user.profile.image|thumbnail_url:"avatar" }}" />'+{% endif %}
+                  '</div><div class="comment-details card">' +
+                    '<div class="comment-info card-header">'+
+                        '<strong>{{ request.user.username }}</strong> &bull; A few seconds ago'+
+                    '</div><div class="comment-text card-body">'+
+                      res.new_comment
+                    +'</div>'+
+                '</div>');
+          }
+        ).fail(function(xhr, status, error) {
+          const errorCode = xhr.responseJSON.error;
+          if (errorCode === 'empty_comment') {
+            $('#comment-form-error').html("You didn't type a comment.").addClass('shown-error');
+          }
+          console.error({
+            message: errorCode,
+            status: xhr.status,
+            error: error,
+          });
+        });
+      })
+    </script>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

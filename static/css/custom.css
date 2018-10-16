@@ -1,0 +1,711 @@
+/* RESET CSS FROM MEYERWEB */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* BEGIN CUSTOM STYLES */
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+p {
+    margin: 10px 0;
+    line-height: 1.2em;
+}
+
+strong {
+    font-weight: 600;
+}
+
+footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid #ededed;
+    color: #A9A9A9;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+}
+
+h3 {
+    font-size: 1.65rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.35rem;
+}
+
+/* NAVBAR */
+
+.icon-bar {
+    background-color: #fff;
+}
+
+.navibar {
+    background: #707d85;
+    height: 60px;
+}
+
+nav .container {
+    display: flex;
+    height: 100%;
+    justify-items: flex-end;
+    padding: 0;
+}
+
+.nav-home {
+    align-items: center;
+    background: #2fa4e7;
+    color: white;
+    display: flex;
+    font-size: 22px;
+    font-weight: 900;
+    justify-content: center;
+    width: 60px;
+}
+
+.nav-home a {
+    color: white;
+}
+
+.nav-account {
+    color: white;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.nav-profile,
+.nav-register-login {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    text-align: right;
+}
+
+.nav-profile > div {
+    flex: 0 1 auto;
+}
+
+.profile-name {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.profile-links {
+    font-size: 12px;
+}
+
+.profile-links a,
+.account-links a {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.profile-photo {
+    margin-left: 10px;
+}
+
+.profile-avatar-small {
+    border: 1px solid white;
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+}
+
+/* SEARCH */
+
+.search-title {
+    font-size: 6vmin;
+    margin: 40px 0;
+}
+
+.search {
+    background: #2fa4e7;
+    border: 40px solid #2fa4e7;
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+}
+
+.search-input {
+    background: white;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.create-link {
+    bottom: -20px;
+    color: white;
+    position: absolute;
+    right: 0;
+}
+
+.search input,
+.search button {
+    min-width: 0;
+}
+
+.search input {
+    border: none;
+    flex: 1 1 auto;
+    font-size: 18px;
+    height: 60px;
+    padding: 10px;
+}
+
+.search button {
+    border: none;
+    flex: 0 0 60px;
+    height: 60px;
+}
+
+.search-create {
+    border-top: 1px solid #e7e7e7;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+/* LOGGED OUT HOMEPAGE */
+
+.jumbotron {
+    margin: 20px 0;
+}
+
+.jumbotron p {
+    margin: 20px 0;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.dashboard-issues {
+    margin: 20px 0;
+    order: -1;
+}
+
+.dashboard-login {
+    order: -2;
+}
+
+.dashboard-issues h2 {
+    font-size: 8vmin;
+    margin-bottom: 10px;
+}
+
+.stat-card {
+    margin-bottom: 20px;
+}
+
+.category-card {
+    line-height: 2.5em;
+}
+
+.stat-block {
+    margin-bottom: 10px;
+}
+
+.stat-block:last-child {
+    margin-bottom: 0;
+}
+
+.stat-block .progress {
+    height: 5px;
+}
+
+.stat-top-requests .progress-bar {
+    background-color: #1c9e5d;
+}
+
+.stat-top-bugs .progress-bar {
+    background-color: #2fa4e7;
+}
+
+.stat-block-title {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.issue-row {
+    border-bottom: 1px dotted #e7e7e7;
+    padding: 10px;
+}
+
+.issue-row:nth-child(even) {
+    background: #f7f7f7;
+}
+
+.issue-row-top {
+    align-items: baseline;
+    display: flex;
+    justify-items: center;
+}
+
+.issue-row-bottom {
+    font-size: 12px;
+}
+
+.issue-row .issue-row-bottom {
+    margin-left: 30px;
+}
+
+.issue-row-bottom .issue-field {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.issue-field.type {
+    flex: 0 0 25px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.issue-field.title {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.issue-field.upvotes,
+.issue-field.credits {
+    border-radius: 5px;
+    color: white;
+    margin-left: auto;
+    padding: 5px;
+}
+
+.issue-field.credits {
+    background: #1c9e5d;
+}
+
+.issue-field.upvotes {
+    background: #2fa4e7;
+}
+
+@keyframes flash {
+	0% { background-color: #2fa4e7; } 
+	50% { background-color: #d1ebfa; } 
+	100% { background-color: #2fa4e7; }
+}
+
+.issue-field.upvotes.voted {
+    animation: flash 1s 3;
+}
+
+@keyframes creditFlash {
+	0% { background-color: #1c9e5d; } 
+	50% { background-color: #f4fff9; } 
+	100% { background-color: #1c9e5d; }
+}
+
+.issue-field.credits.credited {
+    animation: creditFlash 1s 3;
+}
+
+.issue-field.created {
+    margin-right: 10px;
+    width: 100%;
+}
+
+.issue-field.updated {
+    line-height: 1.5em;
+    opacity: 0.5;
+    width: 100%;
+}
+
+.status {
+    background: #707d85;
+    border-radius: 3px;
+    color: white;
+    padding: 5px;
+    transition: opacity 0.3s;
+}
+
+a.status:hover {
+    color: white;
+    opacity: 0.8;
+    text-decoration: none;
+}
+
+.status-nw {
+    background: #2fa4e7;
+}
+
+.status-pd,
+.status-ip {
+    background: #0c5460;
+}
+
+.status-nm {
+    background: #c0790f;
+}
+
+.status-de {
+    background: #721c24;
+}
+
+.status-cp {
+    background: #1c9e5d;
+}
+
+.issue-field.status {
+    margin-right: 10px;
+}
+
+@media only screen and (min-width: 768px) {
+    .dashboard {
+        flex-flow: row nowrap;
+    }
+
+    .dashboard-stats {
+        flex: 0 0 300px;
+        margin-right: 40px;
+        max-width: 300px;
+    }
+
+    .dashboard-issues {
+        flex: 1 0 400px;
+        margin: 0;
+        order: initial;
+    }
+
+    .dashboard-issues h2 {
+        font-size: 4vmin;
+    }
+
+    .issue-row-top {
+        margin-bottom: 10px;
+    }
+
+    .issue-row-bottom {
+        align-items: baseline;
+        display: flex;
+        flex-flow: row wrap;
+        justify-items: center;
+    }
+
+    .issue-row .issue-row-bottom {
+        margin-left: 30px;
+    }
+
+    .issue-row-bottom .issue-field {
+        display: auto;
+        margin-top: 0;
+    }
+
+    .issue-field.title {
+        font-size: 18px;
+    }
+
+    .issue-field.created {
+        width: auto;
+    }
+
+    .issue-field.updated {
+        margin-left: auto;
+        width: auto;
+    }
+}
+
+/* LOGIN FORM */
+
+.form-group label {
+    margin-bottom: 5px;
+}
+
+.login-form-links {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+/* ISSUE LIST PAGE */
+
+.issue-list-page {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.list-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.list-header h1 {
+    flex: 0 1 auto;
+    margin: 0;
+}
+
+.list-header .btn-group {
+    margin-left: 10px;
+}
+
+.issue-pagination {
+    margin: 20px 0;
+}
+
+/* ISSUE DETAIL PAGE */
+
+.issue-title {
+    display: flex;
+    align-items: flex-start;
+    margin: 20px 0;
+}
+
+.issue-title h1 {
+    flex: 1 1 auto;
+}
+
+.issue-title > .issue-field {
+    display: flex;
+    flex-flow: column nowrap;
+    font-size: 24px;
+    flex: 0 0 100px;
+    margin-left: 20px;
+}
+
+.issue-title .badge a {
+    border-top: 1px solid white;
+    color: white;
+    font-size: 16px;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.jquery-modal .modal {
+    overflow: visible;
+}
+
+.modal #credit-btn {
+    margin: 20px 0;
+}
+
+.form-error-message,
+.modal .modal-error-message {
+    border-radius: 5px;
+    color: #e21529;
+    display: none;
+    margin: 10px 0;
+    padding: 5px;
+}
+
+@keyframes redFlash {
+	0% { 
+        background-color: transparent;
+        color: #e21529;
+    } 
+	50% { 
+        background-color: #e21529; 
+        color: white;
+    } 
+	100% { 
+        background-color: transparent; 
+        color: #e21529;
+    }
+}
+
+.form-error-message.shown-error,
+.modal .modal-error-message.shown-error {
+    animation: redFlash 1s 3;
+    display: block;
+}
+
+.invalid-feedback.shown-error {
+    display: block;
+}
+
+
+/* COMMENTS */
+
+.issue-comments {
+    margin: 20px 0;
+}
+
+.issue-comment {
+    align-items: flex-start;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.creator-profile-photo {
+    background: #707d85;
+    border-radius: 50%;
+    display: block;
+    flex: 0 0 50px;
+    height: 50px;
+    width: 50px;
+}
+
+.creator-profile-photo img {
+    border-radius: 50%;
+}
+
+.comment-details {
+    flex: 1 1 auto;
+    margin-left: 10px;
+}
+
+.comment-text {
+    font-size: 14px;
+    line-height: 1.2em;
+}
+
+.comment-form {
+    margin-left: 60px;
+}
+
+.admin-comment .comment-details {
+    background: rgb(240, 255, 247);
+}
+
+/* PROFILE */
+
+.profile-picture {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.profile-info h1 {
+    text-align: center;
+}
+
+@media only screen and (min-width: 576px) {
+    .profile-info h1 {
+        text-align: left;
+    }
+}
+
+.profile-avatar {
+    border-radius: 50%;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
+.avatar-default {
+    background: #707d85;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 10px;
+    padding-top: 100%;
+    width: 100%
+}
+
+/* CREDITS & SUBSCRIPTIONS */
+
+.number-picker {
+    max-width: 400px;
+}
+
+.jumbotron .progress {
+    background: white;
+}
+
+.checkout {
+    margin: 20px 0;
+}
+
+small {
+    font-size: 80%;
+    font-weight: 400;
+}
+
+.StripeElement {
+    background-color: white;
+    height: 40px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+  
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+#card-errors,
+.error-msg {
+    color: #e21529;
+    font-weight: 400;
+}
+
+.error-msg {
+    font-size: 75%;
+}
+
+.jumbotron .help-block {
+    color: #707d85;
+    font-size: 75%;
+    margin-top: 5px;
+}

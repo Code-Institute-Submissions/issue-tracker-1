@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="search-title">Hi <strong>{{ user.username }}</strong>, what can we help you with?</h2>
+<form action="{% url 'search' %}" method="get">
+    <div class="search dashboard-search">
+        <div class="search-input">
+            <input type="text" name="q" placeholder="Search for issues">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+        <a class="create-link" href="{% url 'create_issue' %}">or create a new issue &raquo;</a>
+    </div>
+</form>
+
+
+<div class="dashboard">
+    <div class="dashboard-stats">
+        <div class="card stat-card stat-top-requests">
+            <h3 class="card-header">Most Requested Features</h3>
+            <div class="card-body">
+                {% with top_open_requests|first as top_request %}
+                {% with top_request.total_credits as top_credits %}
+                {% for issue in top_open_requests %}
+                <div class="stat-block">
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {% widthratio issue.total_credits top_credits 100 %}%" role="progressbar" aria-valuenow="{{ issue.total_credits }}" aria-valuemin="0" aria-valuemax="{{ top_credits }}"></div>
+                    </div>
+                    <div class="stat-block-title">
+                        <a href="{{ issue.get_absolute_url }}">{{ issue.title }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endwith %}
+                {% endwith %}
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'all_open_requests' %}" class="btn btn-primary btn-sm">All Open Feature Requests &rsaquo;</a>
+            </div>
+        </div>
+        <div class="card stat-block stat-top-bugs">
+            <h3 class="card-header">Most Upvoted Bugs</h3>
+            <div class="card-body">
+                {% with top_open_bugs|first as top_bug %}
+                {% with top_bug.total_upvotes as top_upvotes %}
+                {% for issue in top_open_bugs %}
+                <div class="stat-block">
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {% widthratio issue.total_upvotes top_upvotes 100 %}%" role="progressbar" aria-valuenow="{{ issue.total_upvotes }}" aria-valuemin="0" aria-valuemax="{{ top_upvotes }}"></div>
+                    </div>
+                    <div class="stat-block-title">
+                        <a href="{{ issue.get_absolute_url }}">{{ issue.title }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endwith %}
+                {% endwith %}
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'all_open_bugs' %}" class="btn btn-primary btn-sm">All Open Bugs &rsaquo;</a>
+            </div>
+        </div>
+        <div class="card stat-block">
+            <h3 class="card-header">Top Issue Categories</h3>
+            <div class="card-body category-card">
+                {% for category in categories %}
+                <a href="{% url 'all_issues_by_category' category.id %}" class="btn btn-secondary" role="button">{{ category }} <span class="badge badge-light">{{ category.issue_count }}</span></a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card stat-block stats-progress">
+            <h3 class="card-header">Monthly Progress</h3>
+            <div class="card-body">
+                <canvas id="monthlyProgress" width="400" height="400"></canvas>
+            </div>
+            <script>
+                var ctx = document.getElementById("monthlyProgress");
+		        var color = Chart.helpers.color;
+                var config = {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            label: 'Issues updated',
+                            backgroundColor: '#2fa4e7',
+                            borderColor: '#2fa4e7',
+                            fill: false,
+                            data: [
+                            {% for month in monthly_counts %}
+                                {
+                                    x: "{{ month.month|date:'c' }}",
+                                    y: {{ month.updated }}
+                                },
+                            {% endfor %}
+                            ],
+                        },{
+                            label: 'Issues completed',
+                            backgroundColor: '#1c9e5d',
+                            borderColor: '#1c9e5d',
+                            fill: false,
+                            data: [
+                            {% for month in monthly_counts %}
+                                {
+                                    x: "{{ month.month|date:'c' }}",
+                                    y: {{ month.completed }}
+                                },
+                            {% endfor %}
+                            ],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        elements: {
+                            line: {
+                                tension: 0,
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                display: true,
+                                scaleLabel: {
+                                    display: false,
+                                    labelString: 'Month'
+                                },
+                                time: {
+                                    tooltipFormat: 'MMMM'
+                                },
+                                ticks: {
+                                    major: {
+                                        fontColor: '#333'
+                                    }
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: false,
+                                    labelString: 'Number'
+                                },
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                };
+                var monthlyProgressChart = new Chart(ctx, config);
+            </script>
+        </div>
+    </div>
+    <div class="dashboard-issues card">
+        <h3 class="card-header">Recently Added Issues</h3>
+        <div class="list-group list-group-flush">
+            {% include "recently_updated_issue_list.html" %}
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'all_open_issues' %}" class="btn btn-primary btn-sm">All Open Issues &rsaquo;</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

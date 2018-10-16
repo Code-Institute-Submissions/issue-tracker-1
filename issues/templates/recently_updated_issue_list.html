@@ -1,0 +1,3 @@
+{% for issue in issues|dictsortreversed:"created"|slice:":10" %}
+    {% include "issue_row.html" %}
+{% endfor %}

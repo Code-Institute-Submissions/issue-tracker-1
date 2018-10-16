@@ -1,0 +1,34 @@
+{% extends 'base.html' %} 
+{% load thumbnail %}
+{% block page_title %} &bull; {{ user }}'s Profile{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-sm-4 profile-picture">
+      {% if profile.image %}
+        <img class="profile-avatar" src="{{ profile.image|thumbnail_url:'profile' }}" />
+      {% else %}
+        <span class="avatar-default"></span>
+      {% endif %}
+      <a href="{% url 'edit_profile' %}" class="btn btn-secondary btn-sm">Edit Profile Picture</a>
+    </div>
+    <div class="col-sm-8 profile-info">
+      <h1 class="h3">{{ profile.user.username }}{% if profile.is_active_subscriber %} <span class="badge badge-success">Premium</span>{% endif %}</h1>
+      <p class="lead">{{ profile.user.email }}</p>
+      <hr class="my-4">
+      <p>Joined on {{ profile.user.date_joined|date:"dS F Y" }}.</p>
+      {% if profile.user.subscription %}
+      <p>Subscription expires on {{ profile.user.subscription.expires|date:"dS F Y" }}.</p>
+      {% endif %}
+      <p>Credits Balance <span class="badge badge-{% if profile.credits == 0 %}danger{% else %}secondary{% endif %}">{{ profile.credits }}</span></p>
+      {% if profile.is_active_subscriber %}
+        <a class="btn btn-success btn-lg" href="{% url 'add_credits' %}" role="button">Buy More Credits</a>
+      {% else %}
+        <a class="btn btn-primary btn-lg" href="{% url 'profile_upgrade' %}" role="button">Subscribe to Premium</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

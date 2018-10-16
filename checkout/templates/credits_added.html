@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+{% load thumbnail %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="h2">Thanks for buying!</h1>
+  <p class="lead">Your account now has {{ user.profile.credits }} credits.</p>
+  <hr class="my-4">
+  <div class="progress">
+    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Done</div>
+  </div>
+  <hr class="my-4">
+  <p>Why not find some feature requests to give those new credits to?</p>
+  <a class="btn btn-primary" href="{% url 'all_open_requests' %}">All Open Feature Requests</a>
+</div>
+{% endblock %}

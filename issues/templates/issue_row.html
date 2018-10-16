@@ -1,0 +1,16 @@
+<div class="issue-row list-group-item">
+    <div class="issue-row-top">
+        <span class="issue-field type {% if issue.issue_type == 'BG' %}bug-type{% endif %}">{% if issue.issue_type == 'BG' %}<i class="fas fa-bug" title="Bug"></i>{% else %}<i class="far fa-lightbulb" title="Feature Request"></i>{% endif %}</span>
+        <span class="issue-field title"><a href="{{ issue.get_absolute_url }}">{{ issue.title }}</a></span>
+        {% if issue.issue_type == 'BG' %}
+        <span class="issue-field upvotes badge badge-pill">{{ issue.total_upvotes }} votes</span>
+        {% else %}
+        <span class="issue-field credits badge badge-pill">{{ issue.total_credits }} credits</span>
+        {% endif %}
+    </div>
+    <div class="issue-row-bottom">
+        <a href="{% url 'all_issues_by_status' issue.get_status_display %}" class="issue-field status status-{{ issue.status|lower }}">{{ issue.status_label }}</a>
+        <span class="issue-field created">Created {{ issue.created|date:"M j Y" }} by <strong>{{ issue.creator.username }}</strong></span>
+        <span class="issue-field updated">Updated {{ issue.updated|timesince }} ago</span>
+    </div>
+</div>
