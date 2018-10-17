@@ -1,10 +1,13 @@
 # Hello World!
-Welcome to my final Exam project.
+This is my final Exam project.
 
 
 # Project: Support For You: an issue tracker
-Visit my website [here](https://annies-issue-tracker.herokuapp.com/) 
+Welcome to Support For You, a community-driven site where you can report bugs or
+request features, upvote already reported bugs, and give funding to boost 
+feature requests.
 
+Visit my website [here](https://annies-issue-tracker.herokuapp.com/) 
 
 ## Introduction
 
